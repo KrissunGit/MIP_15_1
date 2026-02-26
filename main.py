@@ -3,7 +3,7 @@ import random
 # Rakstu visu vienkārši pēc kārtas, bez funkcijām
 print("Ievadiet skaitļu virknes garumu (15-20): ")  
 ievade = input()  
-n = int(ievade) # Ja ievadīs burtu, tad izmetīs erroru (nemāku vēl try-except)
+n = int(ievade) # Ja ievadīs burtu, tad izmetīs erroru
   
 # Taisu sarakstu ar while ciklu un lieku klāt ar append
 virkne = []  
