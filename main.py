@@ -158,7 +158,7 @@ while running:
                 if split_btn_rect.collidepoint(event.pos):
                     if numbers[selected_index] == 4: 
                         player_points += 1
-                    print(f"Player split: {numbers[selected_index]} into two {numbers[selected_index]//2}")
+                    print(f"Player split: {numbers[selected_index]} into two {numbers[selected_index]//2}'s")
                     split_func(numbers, selected_index)
                     state = "PLAYING"
                     whos_turn = "AI"
@@ -235,6 +235,8 @@ while running:
             screen.blit(take_txt, (take_btn_rect.x + 15, take_btn_rect.y + 10))
             
             pygame.draw.rect(screen, "yellow", square_rects[selected_index], 4)
+
+        #te var izdarīt to koka eksportu/gājienu eksportu
 
     elif state == "END":
         if player_points > ai_points:
