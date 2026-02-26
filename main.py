@@ -22,10 +22,6 @@ def generate_button_pos(number_list, total_width=1280, spacing=10):
         rects.append(new_rect)
     return rects
 
-def ai(number_list):
-    for i in number_list:
-        pass
-
 def split_func(number_list, index):
     result = number_list[index] // 2
     number_list.pop(index)
@@ -148,6 +144,7 @@ while running:
                                 state = "DECIDING"    
                             else:
                                 player_points += val
+                                print(f"Player chooses: {numbers[index]}")
                                 numbers.pop(index)
                                 if len(numbers) == 0:
                                     state = "END"
@@ -161,7 +158,7 @@ while running:
                 if split_btn_rect.collidepoint(event.pos):
                     if numbers[selected_index] == 4: 
                         player_points += 1
-                    
+                    print(f"Player split: {numbers[selected_index]} into two {numbers[selected_index]//2}")
                     split_func(numbers, selected_index)
                     state = "PLAYING"
                     whos_turn = "AI"
@@ -169,6 +166,7 @@ while running:
 
                 elif take_btn_rect.collidepoint(event.pos):
                     player_points += numbers[selected_index]
+                    print(f"Player chooses: {numbers[selected_index]}")
                     numbers.pop(selected_index)
                     state = "PLAYING"
                     whos_turn = "AI"
@@ -221,6 +219,7 @@ while running:
                     best_val, ai_idx = res, i
             
             ai_points += numbers[ai_idx]
+            print(f"AI chooses {numbers[ai_idx]}")
             numbers.pop(ai_idx)
             if not numbers: state = "END"
             else: whos_turn = "PLAYER"
@@ -238,8 +237,13 @@ while running:
             pygame.draw.rect(screen, "yellow", square_rects[selected_index], 4)
 
     elif state == "END":
-        end_msg = font.render(f"Player points: {player_points} AI points: {ai_points}", True, "green")
-        screen.blit(end_msg, (screen_width // 2 - 320, screen_height // 2))
+        if player_points > ai_points:
+            end_msg = font.render(f"Player wins! {player_points} : {ai_points}", True, "green")
+        elif ai_points > player_points:
+            end_msg = font.render(f"AI wins! {player_points} : {ai_points}", True, "green")
+        else:
+            end_msg = font.render(f"Draw! {player_points} : {ai_points}", True, "green")
+        screen.blit(end_msg, (screen_width // 2 - 100, screen_height // 2))
 
     pygame.display.flip()
     clock.tick(60)
