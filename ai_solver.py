@@ -1,9 +1,11 @@
 def minimax_ab(state, depth, alpha, beta, is_maximizing):
+
     """
         Rekursīva funkcija, kas aprēķina labāko iespējamo vērtību dotajai pozīcijai.
         - alpha: Labākais rezultāts, ko maksimizētājs (spēlētājs viens) jau ir garantējis sev šajā zarā.
         - beta: Labākais (mazākais) rezultāts, ko minimizētājs (spēlētājs divi) jau ir garantējis sev šajā zarā.
     """
+    
     if state.is_empty() or depth == 0:
         return state.p1_points - state.p2_points
 
@@ -29,16 +31,23 @@ def minimax_ab(state, depth, alpha, beta, is_maximizing):
         return min_eval
     
 def evaluate_postition(state, depth):
+
     '''
         Atdod labāko kustību izmantojot minimax funkciju ar alpha-beta atcipršanas metodi 
     '''
 
     best_move = None
-    best_value = -float('inf') if state.turn == 1 else float('inf')
     
-    alpha = -float('inf')
-    beta = float('inf')
+    if state.turn == 1:
+        best_value = -float('inf')
+    else:
+        best_value = float('inf')
+    
+    alpha = -float('inf') # Alpha definešana, kā negatīva bezgalība
+    beta = float('inf') # Beta definešana, kā pozitīva bezgalība
 
+
+    # Nākamo pāris kustību simulēšana izmantojot generate_moves un apply_move
     for move in state.generate_moves():
         child = state.apply_move(move)
         is_next_max = (child.turn == 1)
