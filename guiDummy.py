@@ -18,16 +18,13 @@ class GameGUI:
         self.p2_score = 0   # Testa punkti
         self.current_turn = "Human" # Kurš tagad iet?
         
-        self.setup_ui()
-        
-    def setup_ui(self):
         # 1. Iestatījumu panelis (Augšā)
         settings_frame = tk.LabelFrame(self.root, text="Pirms Spēles Iestatījumi")
         settings_frame.pack(fill="x", padx=10, pady=5)
-  
         tk.Button(settings_frame, text="Sākt Jaunu Spēli",
-                  command=self.start_game, bg="#dddddd").pack(pady=5)
-  
+                  command=self.setup_ui, bg="#dddddd").pack(pady=5)
+        
+    def setup_ui(self):
         # 2. Informācijas panelis (Vidū)
         self.info_label = tk.Label(self.root, text="Gājiens: Cilvēks", font=("Arial", 14))
         self.info_label.pack(pady=10)
@@ -46,6 +43,7 @@ class GameGUI:
         self.log_text = tk.Text(self.root, height=8, width=70, state="disabled", bg="#1e1e1e", fg="#00ff00")
         self.log_text.pack(pady=10, padx=10)
 
+        self.start_game()
     
     def log(self, message):
         """Palīgfunkcija teksta ierakstīšanai logā"""
