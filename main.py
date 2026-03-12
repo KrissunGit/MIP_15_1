@@ -7,7 +7,6 @@ def main():
 
     print("Sākums:", state.numbers, "Punkti:", state.get_points(), "Turn:", state.turn)
 
-    # testam: vienkārši vienmēr izvēlas pirmo iespējamo gājienu
     while not state.is_empty():
         move = evaluate_position(state, depth=4,difficulty=1)
         if move:
@@ -20,26 +19,6 @@ def main():
 
     print("Beigas:", state.numbers, "Punkti:", state.get_points(), "Winner:", state.check_winner())
     return state.check_winner()
-
-def main1():
-    loops = 10
-    winners = []
-    wins_1 = 0
-    wins_2 = 0
-    draw = 0
-    while loops != 0:
-        winners.append(main1())
-        loops-=1
-    for i in winners:
-        if i == 1:
-            wins_1 += 1
-        elif i == 2:
-            wins_2 += 1
-        elif i == 0:
-            draw += 1
-        else:
-            break
-    print(f"P1 won: {wins_1} times\n P2 won: {wins_2} times\n It was a draw {draw} times") 
 
 if __name__ == "__main__":
     main()
