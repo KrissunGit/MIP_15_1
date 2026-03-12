@@ -91,15 +91,16 @@ def evaluate_position(state, depth, difficulty):
     return best_move
 
 def difficulty_changer(child, difficulty,alpha,beta,is_next_max, depth):
-    
-    if difficulty == 0:
-        val = minimax_ab(child, depth - 1, alpha, beta, is_next_max)
-    elif difficulty == 2:
-        val = inv_minimax_ab(child, depth - 1, alpha, beta, is_next_max)
-    elif difficulty == 1:
-        if random.random() < 0.5:
+    match difficulty:
+        case 0:
             val = minimax_ab(child, depth - 1, alpha, beta, is_next_max)
-        else:
+        case 1:
+            if random.random() < 0.5:
+                val = minimax_ab(child, depth - 1, alpha, beta, is_next_max)
+            else:
+                val = inv_minimax_ab(child, depth - 1, alpha, beta, is_next_max)
+        case 2:
             val = inv_minimax_ab(child, depth - 1, alpha, beta, is_next_max)
-
+        case _:
+            pass
     return val
