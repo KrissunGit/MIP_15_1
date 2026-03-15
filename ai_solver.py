@@ -62,14 +62,11 @@ def evaluate_position(state, depth, movelist, move_index):
     '''
         Atdod labāko kustību izmantojot minimax funkciju ar alpha-beta atcipršanas metodi 
     '''
-
     best_move = None
-    
     if state.turn == 1:
         best_value = -float('inf')
     else:
         best_value = float('inf')
-
     alpha = -float('inf') # Alpha definešana, kā negatīva bezgalība
     beta = float('inf') # Beta definešana, kā pozitīva bezgalība)
     
@@ -77,9 +74,7 @@ def evaluate_position(state, depth, movelist, move_index):
     for move in state.generate_moves():
         child = state.apply_move(move)
         is_next_max = (child.turn == 1)
-        
         val = calc_move(child,movelist, move_index, alpha,beta,is_next_max,depth)
-            
         if state.turn == 1:
             if val > best_value:
                 best_value = val
@@ -88,12 +83,9 @@ def evaluate_position(state, depth, movelist, move_index):
             if val < best_value:
                 best_value = val
                 best_move = move
-    move_index += 1
-    print("MI" + str(move_index))
     return best_move
 
 def calc_move(child, movelist, move_index, alpha,beta,is_next_max, depth):
-    print(movelist[move_index])
     match movelist[move_index]:
         case 1:
             val = inv_minimax_ab(child, depth-1, alpha, beta, is_next_max)
@@ -123,5 +115,4 @@ def generate_list(difficulty):
         else:
             movelist.append(0)
     random.shuffle(movelist)
-    print(movelist)
     return list(movelist)
