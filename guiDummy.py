@@ -105,6 +105,10 @@ class GameGUI:
     # 2. SPĒLES SĀKŠANA (atiestata datus, neveido jaunus widgetus)
     # =========================================================
     def start_game(self):
+        self.log_text.config(state="normal")  
+        self.log_text.delete("1.0", tk.END)   # terminal cleaner
+        self.log_text.config(state="disabled")
+        
         seq = generate_sequence(15)
         self.state = GameState(seq)
 
