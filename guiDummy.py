@@ -4,7 +4,7 @@ import time
 
 # --- REĀLIE IMPORTI (Engine + AI) ---
 from game_logic import GameState, generate_sequence
-from ai_solver import evaluate_position
+from ai_solver import evaluate_position_simple as evaluate_position
 
 # Cilvēks vienmēr ir spēlētājs 1, Dators — spēlētājs 2
 HUMAN = 1
@@ -208,8 +208,7 @@ class GameGUI:
         algo  = self.algo_var.get()
 
         t_start = time.time()
-        result  = evaluate_position(self.state, depth=depth,
-                                    difficulty=0, algorithm=algo)
+        result  = evaluate_position(self.state, depth, algo)
         elapsed = time.time() - t_start
 
         # evaluate_position atgriež (move, nodes_gen, nodes_eval, time)
