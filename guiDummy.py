@@ -26,7 +26,7 @@ class GameGUI(ctk.CTk):
         # Iestatījumu mainīgie
         self.starter_var = tk.StringVar(value="Human")   # kurš sāk
         self.algo_var    = tk.StringVar(value="alphabeta") # algoritms
-        self.depth_var   = tk.IntVar(value=4)             # dziļums
+        self.depth = 4
 
         # Uzbūvē visus widgetus VIENU REIZI
         self._build_widgets()
@@ -69,17 +69,6 @@ class GameGUI(ctk.CTk):
         ctk.CTkRadioButton(f2, text="Alpha-Beta", variable=self.algo_var,
                        value="alphabeta",
                        font=("Monospace", 10)).pack(anchor="w", padx=15, pady=(2, 10))
-
-        # Bloks 3: Dziļums
-        f3 = ctk.CTkFrame(top, fg_color="transparent")
-        f3.pack(side="left", padx=8, pady=4, fill="y")
-
-        f3_label = ctk.CTkLabel(f3, text="Dziļums?", font=("Monospace", 12, "bold"), text_color="#3b8ed0")
-        f3_label.pack(anchor="w", padx=12, pady=(10,5))
-
-        tk.Spinbox(f3, from_=1, to=8, textvariable=self.depth_var,
-                   width=4, font=("Monospace", 14, "bold"),
-                   justify="center").pack(pady=4)
 
         # Poga "Sākt" - labajā pusē, liela un zaļa
         ctk.CTkButton(top, text="▶  Sākt jaunu spēli", command=self.start_game, font=("Monospace", 13, "bold"), cursor="hand2",
@@ -130,7 +119,7 @@ class GameGUI(ctk.CTk):
 
         self.log("=" * 40)
         self.log(f"Jauna spēle! Virkne: {self.game_state.numbers}")
-        self.log(f"Sāk: {self.starter_var.get()} | Algoritms: {self.algo_var.get()} | Dziļums: {self.depth_var.get()}")
+        self.log(f"Sāk: {self.starter_var.get()} | Algoritms: {self.algo_var.get()} | Dziļums: {self.depth}")
 
         self._refresh()
 
@@ -220,7 +209,7 @@ class GameGUI(ctk.CTk):
         self.log("Dators domā...")
         self._refresh()  # Rāda "Dators domā..." uzrakstu
 
-        depth = self.depth_var.get()
+        depth = self.depth
         algo  = self.algo_var.get()
 
         t_start = time.time()
