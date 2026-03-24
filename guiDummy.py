@@ -26,7 +26,8 @@ class GameGUI(ctk.CTk):
         # Iestatījumu mainīgie
         self.starter_var = tk.StringVar(value="Human")   # kurš sāk
         self.algo_var    = tk.StringVar(value="alphabeta") # algoritms
-        self.depth_var   = tk.IntVar(value=4)             # dziļums
+        #self.depth_var   = tk.IntVar(value=4)             # dziļums
+        self.diff_var = tk.StringVar(value="medium") # grūtība
 
         # Uzbūvē visus widgetus VIENU REIZI
         self._build_widgets()
@@ -70,6 +71,23 @@ class GameGUI(ctk.CTk):
                        value="alphabeta",
                        font=("Monospace", 10)).pack(anchor="w", padx=15, pady=(2, 10))
 
+        # Bloks 3: Grūtības izvēle(dziļuma izvēle)
+        f3 = ctk.CTkFrame(top, fg_color="transparent")
+        f3.pack(side="left", padx=8, pady=4, fill="y", ipady=5)
+
+        f3_label = ctk.CTkLabel(f3, text="Grūtība", font=("Monospace", 12, "bold"), text_color="#3b8ed0")
+        f3_label.pack(anchor="w", padx=15, pady=(10,5))
+
+        ctk.CTkRadioButton(f3, text="Viegli", variable=self.diff_var,
+                       value="easy",
+                       font=("Monospace", 10)).pack(anchor="w", padx=15, pady=2)
+        ctk.CTkRadioButton(f3, text="Vidēji", variable=self.diff_var,
+                       value="medium",
+                       font=("Monospace", 10)).pack(anchor="w", padx=15, pady=2)
+        ctk.CTkRadioButton(f3, text="Grūti", variable=self.diff_var,
+                           value="hard",
+                           font=("Monospace", 10)).pack(anchor="w", padx=15, pady=(2, 10))
+
         # Poga "Sākt" - labajā pusē, liela un zaļa
         ctk.CTkButton(top, text="▶  Sākt jaunu spēli", command=self.start_game, font=("Monospace", 13, "bold"), cursor="hand2",
                   width=160, height=45, corner_radius=10).pack(side="right", padx=15, pady=4)
@@ -110,6 +128,15 @@ class GameGUI(ctk.CTk):
         self.log_text.delete("1.0", "end")   # terminal cleaner
         self.log_text.configure(state="disabled")
 
+        diff = self.diff_var.get()
+
+        if diff == "easy":
+            self.depth = 2
+        elif diff == "medium":
+            self.depth = 4
+        else:
+            self.depth = 6
+
         seq = generate_sequence(15)
         self.game_state = GameState(seq)
 
@@ -119,7 +146,7 @@ class GameGUI(ctk.CTk):
 
         self.log("=" * 40)
         self.log(f"Jauna spēle! Virkne: {self.game_state.numbers}")
-        self.log(f"Sāk: {self.starter_var.get()} | Algoritms: {self.algo_var.get()} | Dziļums: {self.depth_var.get()}")
+        self.log(f"Sāk: {self.starter_var.get()} | Algoritms: {self.algo_var.get()} | Grūtība: {self.diff_var.get()} | Dziļums: {self.depth}")
 
         self._refresh()
 
@@ -209,8 +236,8 @@ class GameGUI(ctk.CTk):
         self.log("Dators domā...")
         self._refresh()  # Rāda "Dators domā..." uzrakstu
 
-        depth = self.depth_var.get()
         algo  = self.algo_var.get()
+        depth = self.depth
 
         t_start = time.time()
         result  = evaluate_position(self.game_state, depth, algo)
