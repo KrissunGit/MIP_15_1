@@ -174,10 +174,11 @@ class GameGUI(ctk.CTk):
             p_state = "normal" if p_can_press else "disabled"
             p_color = "#2eb086" if p_can_press else "#253b34"
             p_text_color = "#ffffff" if p_can_press else "#666666"
-            
+            p_hover_color = "#1e7a5d"
+
             ctk.CTkButton(col_frame, text="P", width=50, height=35, corner_radius=8,
                           command=lambda idx=i: self._human_move("TAKE", idx),
-                          fg_color=p_color, text_color=p_text_color, state=p_state).pack(pady=2)
+                          fg_color=p_color, text_color=p_text_color, hover_color=p_hover_color, state=p_state).pack(pady=2)
 
             if val in (2, 4):
                 # Poga "S" (Split) - oranža krāsa
@@ -186,10 +187,11 @@ class GameGUI(ctk.CTk):
                 s_state = "normal" if s_can_press else "disabled"
                 s_color = "#f6995c" if s_can_press else "#4a3325"
                 s_text_color = "#ffffff" if s_can_press else "#666666"
-                
+                s_hover_color = "#c47a4a"
+
                 ctk.CTkButton(col_frame, text="S", width=50, height=35, corner_radius=8,
                               command=lambda idx=i, n=val: self._human_move("SPLIT2" if n==2 else "SPLIT4", idx),
-                              fg_color=s_color, text_color=s_text_color, state=s_state).pack(pady=2)
+                              fg_color=s_color, text_color=s_text_color, hover_color=s_hover_color, state=s_state).pack(pady=2)
 
     def _human_move(self, action, idx):
         if self.game_state is None or self.game_state.turn != HUMAN: return
