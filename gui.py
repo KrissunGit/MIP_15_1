@@ -24,7 +24,7 @@ class GameGUI(ctk.CTk):
         if screen_h < 950:
             # Maziem ekrāniem (piem. Laptopiem)
             self.geometry("1100x700")
-            self.canvas_h = 440
+            self.canvas_h = 220
         else:
             # Lieliem monitoriem
             self.geometry("1300x850")
