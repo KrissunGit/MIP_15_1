@@ -24,10 +24,9 @@ class GameGUI(ctk.CTk):
         self.game_state = None
 
         # Iestatījumu mainīgie
-        self.starter_var = tk.StringVar(value="Human")   # kurš sāk
+        self.starter_var = tk.StringVar(value="Cilvēks")   # kurš sāk
         self.algo_var    = tk.StringVar(value="alphabeta") # algoritms
-        #self.depth_var   = tk.IntVar(value=4)             # dziļums
-        self.diff_var = tk.StringVar(value="medium") # grūtība
+        self.diff_var = tk.StringVar(value="Vidēji") # grūtība
 
         # Uzbūvē visus widgetus VIENU REIZI
         self._build_widgets()
@@ -49,7 +48,7 @@ class GameGUI(ctk.CTk):
         f1_label.pack(anchor="w", padx=15, pady=(10,5))
 
         cilveks_rb = ctk.CTkRadioButton(f1, text="Cilvēks 👤", variable=self.starter_var,
-                       value="Human",
+                       value="Cilvēks",
                        font=("Monospace", 10))
         cilveks_rb.pack(anchor="w", padx = 15, pady=2)
         dators_rb = ctk.CTkRadioButton(f1, text="Dators 🤖", variable=self.starter_var,
@@ -79,13 +78,13 @@ class GameGUI(ctk.CTk):
         f3_label.pack(anchor="w", padx=15, pady=(10,5))
 
         ctk.CTkRadioButton(f3, text="Viegli", variable=self.diff_var,
-                       value="easy",
+                       value="Viegli",
                        font=("Monospace", 10)).pack(anchor="w", padx=15, pady=2)
         ctk.CTkRadioButton(f3, text="Vidēji", variable=self.diff_var,
-                       value="medium",
+                       value="Vidēji",
                        font=("Monospace", 10)).pack(anchor="w", padx=15, pady=2)
         ctk.CTkRadioButton(f3, text="Grūti", variable=self.diff_var,
-                           value="hard",
+                           value="Grūti",
                            font=("Monospace", 10)).pack(anchor="w", padx=15, pady=(2, 10))
 
         # Poga "Sākt" - labajā pusē, liela un zaļa
@@ -130,12 +129,12 @@ class GameGUI(ctk.CTk):
 
         diff = self.diff_var.get()
 
-        if diff == "easy":
+        if diff == "Viegli":
             self.depth = 2
-        elif diff == "medium":
-            self.depth = 4
+        elif diff == "Vidēji":
+            self.depth = 3
         else:
-            self.depth = 6
+            self.depth = 4
 
         seq = generate_sequence(15)
         self.game_state = GameState(seq)
