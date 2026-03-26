@@ -22,7 +22,7 @@ def minimax_ab(state, depth, alpha, beta, is_maximizing):
         for move in state.generate_moves():
             nodes_generated += 1
             child_state = state.apply_move(move)
-            eval = minimax_ab(child_state, depth - 1, alpha, beta, False)
+            eval = minimax_ab(child_state, depth - 1, alpha, beta, (child_state.turn == 1))
             max_eval = max(max_eval, eval)
             alpha = max(alpha, eval)
             if beta <= alpha:
@@ -33,7 +33,7 @@ def minimax_ab(state, depth, alpha, beta, is_maximizing):
         for move in state.generate_moves():
             nodes_generated += 1
             child_state = state.apply_move(move)
-            eval = minimax_ab(child_state, depth - 1, alpha, beta, True)
+            eval = minimax_ab(child_state, depth - 1, alpha, beta, (child_state.turn == 1))
             min_eval = min(min_eval, eval)
             beta = min(beta, eval)
             if beta <= alpha:
@@ -51,7 +51,7 @@ def inv_minimax_ab(state, depth, alpha, beta, is_maximizing):
         for move in state.generate_moves():
             nodes_generated += 1
             child_state = state.apply_move(move)
-            eval = inv_minimax_ab(child_state, depth - 1, alpha, beta, False)
+            eval = inv_minimax_ab(child_state, depth - 1, alpha, beta, (child_state.turn == 1))
             max_eval = max(max_eval, eval)
             alpha = max(alpha, eval)
             if beta <= alpha:
@@ -62,7 +62,7 @@ def inv_minimax_ab(state, depth, alpha, beta, is_maximizing):
         for move in state.generate_moves():
             nodes_generated += 1
             child_state = state.apply_move(move)
-            eval = inv_minimax_ab(child_state, depth - 1, alpha, beta, True)
+            eval = inv_minimax_ab(child_state, depth - 1, alpha, beta, (child_state.turn == 1))
             min_eval = min(min_eval, eval)
             beta = min(beta, eval)
             if beta <= alpha:
@@ -79,7 +79,7 @@ def minimax(state, depth, is_maximizing):
         for move in state.generate_moves():
             nodes_generated += 1
             child_state = state.apply_move(move)
-            eval = minimax(child_state, depth - 1, False)
+            eval = minimax(child_state, depth - 1, (child_state.turn == 1))
             max_eval = max(max_eval, eval)
         return max_eval
     else:
@@ -87,7 +87,7 @@ def minimax(state, depth, is_maximizing):
         for move in state.generate_moves():
             nodes_generated += 1
             child_state = state.apply_move(move)
-            eval = minimax(child_state, depth - 1, True)
+            eval = minimax(child_state, depth - 1, (child_state.turn == 1))
             min_eval = min(min_eval, eval)
         return min_eval
     
@@ -176,39 +176,41 @@ def generate_list(difficulty, total_length):
     
     random.shuffle(movelist)
     return movelist
-    
-def evaluate_position_simple(state, depth, algorithm="alphabeta"):
-    """
-    FOR GUI - izsaucas bez difficulty sistēmas.
-    Atgriež: (move, nodes_generated, nodes_evaluated, elapsed)
-    """
-    global nodes_generated, nodes_evaluated
-    nodes_generated = 1
-    nodes_evaluated = 0
-    start_time = time.time()
-    
-    best_move = None
-    best_value = -float('inf') if state.turn == 1 else float('inf')
-    alpha, beta = -float('inf'), float('inf')
 
-    for move in state.generate_moves():
-        nodes_generated += 1
-        child = state.apply_move(move)
-        is_next_max = (child.turn == 1)
-
-        if algorithm == "alphabeta":
-            val = minimax_ab(child, depth - 1, alpha, beta, is_next_max)
-        else:
-            val = minimax(child, depth - 1, is_next_max)
-
-        if state.turn == 1:
-            if val > best_value:
-                best_value = val
-                best_move = move
-        else:
-            if val < best_value:
-                best_value = val
-                best_move = move
-                
-    elapsed = time.time() - start_time
+def evaluate_position_simple(state, depth, algorithm="alphabeta"):  
+    """  
+    GUI vajadzībām - izsaucās bez sarežģītās grūtības sistēmas.  
+    Atgriež: (move, nodes_generated, nodes_evaluated, elapsed)  
+    """  
+    global nodes_generated, nodes_evaluated  
+    nodes_generated = 1  
+    nodes_evaluated = 0  
+    start_time = time.time()  
+  
+    best_move = None  
+    best_value = -float('inf') if state.turn == 1 else float('inf')  
+    alpha, beta = -float('inf'), float('inf')  
+  
+    for move in state.generate_moves():  
+        nodes_generated += 1  
+        child = state.apply_move(move)  
+        is_next_max = (child.turn == 1)  
+  
+        if algorithm == "alphabeta":  
+            val = minimax_ab(child, depth - 1, alpha, beta, is_next_max)  
+        else:  
+            val = minimax(child, depth - 1, is_next_max)  
+  
+        if state.turn == 1:  
+            if val > best_value:  
+                best_value = val  
+                best_move = move  
+            alpha = max(alpha, val)
+        else:  
+            if val < best_value:  
+                best_value = val  
+                best_move = move  
+            beta = min(beta, val)
+  
+    elapsed = time.time() - start_time  
     return best_move, nodes_generated, nodes_evaluated, elapsed
