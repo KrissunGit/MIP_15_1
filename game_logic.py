@@ -181,6 +181,7 @@ class GameState:
                     p1 -= penalty
                 else: 
                     p2 -= penalty
+                next_turn += 1
 
         return GameState(
             p1_points=p1,
